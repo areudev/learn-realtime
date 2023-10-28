@@ -7,6 +7,33 @@
     <title>Document</title>
   </head>
   <body class="bg-slate-900 text-slate-200">
-    <h3>hello</h3>
+    <div class="flex flex-col justify-center items-center gap-4 pt-4">
+      <div id="presence-indicator">🔴</div>
+
+      <h1>Chat With Me</h1>
+
+      <form id="chat" class="flex flex-col gap-5">
+        <div class="space-y-4">
+          <div class="flex justify-center gap-2">
+            <span>🧑‍🦱</span>
+            <label for="user">UserName</label>
+            <input id="user" type="text" class="validate" />
+          </div>
+          <div class="flex flex-row gap-2">
+            <span>💬</span>
+            <label for="text">Message</label>
+            <input id="text" type="tel" class="validate" />
+          </div>
+        </div>
+
+        <button
+          class="bg-slate-700 hover:bg-slate-800 text-slate-200 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline self-center"
+          type="submit">
+          Submit 📤
+        </button>
+      </form>
+    </div>
+
+    <script src="polling-chat.js" type="module"></script>
   </body>
 </html>
