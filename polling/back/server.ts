@@ -13,13 +13,13 @@ msg.push({
   time: Date.now(),
 })
 msg.push({
-  user: 'brian',
-  text: 'brian is dumb',
+  user: 'lime',
+  text: 'lime is dumb',
   time: Date.now(),
 })
 
 const app = express()
-app.use(morgan('short'))
+app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.static('front'))
 
