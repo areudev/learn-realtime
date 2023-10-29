@@ -168,5 +168,8 @@ dist
 .yarn/install-state.gz
 .pnp.\*
 
+
+tailwind.config.js
+
 # IntelliJ based IDEs
 .idea
