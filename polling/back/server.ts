@@ -24,7 +24,8 @@ app.use(express.json())
 app.use(express.static('front'))
 
 app.get('/poll', (req, res) => {
-  res.json({
+  // res.status(Math.random() > 0.5 ? 200 : 500).json({
+  res.status(200).json({
     messages: getMsg(),
   })
 })
