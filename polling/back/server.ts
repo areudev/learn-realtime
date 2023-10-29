@@ -29,6 +29,17 @@ app.get('/poll', (req, res) => {
   })
 })
 
+app.post('/poll', (req, res) => {
+  const {user, text} = req.body
+  msg.push({
+    user,
+    text,
+    time: Date.now(),
+  })
+
+  res.json({status: 'ok'})
+})
+
 const port = 6969
 app.listen(port)
 

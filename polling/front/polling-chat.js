@@ -11,9 +11,33 @@ chat.addEventListener('submit', function (e) {
   chat.elements.text.value = ''
 })
 
-async function postNewMsg(user, text) {}
+async function postNewMsg(user, text) {
+  const data = {user, text}
+  const options = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data),
+  }
 
-async function getNewMsgs() {}
+  await fetch('/poll', options)
+}
+
+async function getNewMsgs() {
+  let json
+  try {
+    const res = await fetch('/poll')
+    json = await res.json()
+  } catch (e) {
+    console.error(e)
+  }
+  if (json) {
+    allChat = json.messages
+    console.log(allChat)
+
+    render()
+    setTimeout(getNewMsgs, INTERVAL)
+  }
+}
 
 function render() {
   const html = allChat.map(({user, text, time, id}) =>
@@ -23,7 +47,6 @@ function render() {
 }
 
 const template = (user, msg) =>
-  `<li class="collection-item"><span class="badge">${user}</span>${msg}</li>`
+  `<li class="flex flex-row-reverse p-2 w-96 justify-between border border-slate-400"><span class="text-md text-slate-400">${user}</span>${msg}</li>`
 
-// make the first request
 getNewMsgs()
