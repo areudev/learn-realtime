@@ -1,8 +1,8 @@
 import express from 'express'
 import morgan from 'morgan'
-import CircleBuffer from '../lib/circle-buffer'
+import CircleBuffer from '../circle-buffer/circle-buffer.ts'
 
-const msg = new CircleBuffer(50)
+const msg = new CircleBuffer(10)
 const getMsg = () => {
   return Array.from(msg).reverse()
 }

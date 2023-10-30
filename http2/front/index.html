@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Polling</title>
+  </head>
+  <body class="bg-slate-900 text-slate-200">
+    <div class="flex flex-col justify-center items-center gap-4 pt-4">
+      <div id="presence-indicator">🔴</div>
+
+      <h1 class="text-3xl text-slate-400">Chat With Me</h1>
+
+      <form id="chat" class="flex flex-col gap-5">
+        <div class="space-y-4">
+          <div class="flex justify-center gap-2">
+            <span>🧑‍🦱</span>
+            <label for="user">Who</label>
+            <input id="user" type="text" class="bg-slate-600 p-1" />
+          </div>
+          <div class="flex flex-row gap-2">
+            <span>💬</span>
+            <label for="text">Message</label>
+            <input id="text" type="tel" class="bg-slate-600 p-1" />
+          </div>
+        </div>
+
+        <button
+          class="bg-slate-700 hover:bg-slate-800 text-slate-200 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline self-center"
+          type="submit">
+          Send
+        </button>
+      </form>
+      <ul class="flex flex-col gap-2" id="msgs"></ul>
+    </div>
+
+    <!-- <script src="polling-chat.js" type="module"></script> -->
+  </body>
+</html>

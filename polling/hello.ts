@@ -1,4 +1,4 @@
-import nanobuffer from './lib/circle-buffer'
+import nanobuffer from './circle-buffer/circle-buffer'
 
 const buffer = new nanobuffer<String>(4)
 
