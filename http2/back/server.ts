@@ -8,25 +8,22 @@ import {fileURLToPath} from 'node:url'
 import handler from 'serve-handler'
 import CircleBuffer from '../circle-buffer/circle-buffer.ts'
 
-let connections = []
+let connections: http2.ServerHttp2Stream[] = []
 
 const msg = new CircleBuffer(10)
 const getMsgs = () => Array.from(msg).reverse()
 
 msg.push({
   user: 'Server',
-  msg: 'Welcome to the chat!',
+  text: 'Welcome to the chat!',
   time: Date.now(),
 })
 
-console.log(getMsgs())
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const server = http2.createSecureServer({
   cert: fs.readFileSync(path.join(__dirname, '/../server.crt')),
   key: fs.readFileSync(path.join(__dirname, '/../key.pem')),
-  // key: fs.readFileSync('localhost-privkey.pem'),
-  // cert: fs.readFileSync('localhost-cert.pem'),
 })
 
 server.on('stream', (stream, headers) => {
@@ -40,8 +37,12 @@ server.on('stream', (stream, headers) => {
       ':status': 200,
     })
     stream.write(JSON.stringify({msg: getMsgs()}))
+    connections.push(stream)
+
     stream.on('close', () => {
-      console.log('closed a stream' + stream.id)
+      console.log('closed stream ' + stream.id)
+      connections = connections.filter((s) => s !== stream)
+      console.log(connections.length)
     })
   }
 })
@@ -49,15 +50,15 @@ server.on('stream', (stream, headers) => {
 server.on('request', async (req, res) => {
   const path = req.headers[':path']
   const method = req.headers[':method']
+  const httpVersion = req.httpVersion
+  console.log({path, method, httpVersion})
 
   if (path !== '/msgs') {
-    // handle the static assets
     // @ts-ignore
     return handler(req, res, {
       public: './front',
     })
   } else if (method === 'POST') {
-    // get data out of post
     const buffers = []
     for await (const chunk of req) {
       buffers.push(chunk)
@@ -65,11 +66,17 @@ server.on('request', async (req, res) => {
     const data = Buffer.concat(buffers).toString()
     const {user, text} = JSON.parse(data)
 
-    /*
-     *
-     * some code goes here
-     *
-     */
+    msg.push({
+      user,
+      text,
+      time: Date.now(),
+    })
+
+    res.end()
+
+    connections.forEach((stream) => {
+      stream.write(JSON.stringify({msg: getMsgs()}))
+    })
   }
 })
 
