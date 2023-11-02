@@ -44,7 +44,7 @@ function parseMessage(buffer: Buffer) {
     if (shift === 0) {
       mask = maskingKey & 0xff
     } else {
-      mask = (maskingKey >>> shift) & 0xff
+      mask = (maskingKey >> shift) & 0xff
     }
 
     const source = buffer.readUInt8(currentOffset)
